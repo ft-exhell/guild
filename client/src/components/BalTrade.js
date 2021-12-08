@@ -242,9 +242,9 @@ const BalTrade = () => {
             <p>{`ETH balance: ${ethBalance}`}</p>
             <p>{`USDC balance: ${usdcBalance}`}</p>
             <p>{`DAI balance: ${daiBalance}`}</p>
-            {account && <button onClick={swapEthToUsdc}>Swap ETH to USDC</button>}
+            {/* {account && <button onClick={swapEthToUsdc}>Swap ETH to USDC</button>} */}
             {account && <button onClick={approveUSDC}>Approve USDC</button>}
-            {account && <button onClick={swapUSDCtoDAI}>Swap USDC to DAI</button>}
+            {/* {account && <button onClick={swapUSDCtoDAI}>Swap USDC to DAI</button>} */}
             {account && <button onClick={swapUSDCtoGUILD}>Swap USDC to GUILD</button>}
         </div>
     )
