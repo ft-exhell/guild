@@ -3,15 +3,16 @@ import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
 import Balancer from '../contracts/Balancer.json'
 import USDC from '../contracts/USDC.json'
-import DAI from '../contracts/DAI.json'
+import GUILD from '../contracts/GUILD.json'
 import Vault from '../contracts/Vault.json'
 
 const BalTrade = () => {
     const [web3, setWeb3] = useState(undefined)
     const [account, setAccount] = useState(undefined);
     const [ethBalance, setEthBalance] = useState(0)
-    const [daiBalance, setDAIBalance] = useState(0)
+    const [guildBalance, setGUILDBalance] = useState(0)
     const [usdcBalance, setUsdcBalance] = useState(0)
+    const [usdcAllowance, setUsdcAllowance] = useState(0)
     const [usdcInstance, setUsdcInstance] = useState(undefined)
     const [balInstance, setBalInstance] = useState(undefined)
 
@@ -22,26 +23,29 @@ const BalTrade = () => {
             const accounts = await window.ethereum.request({ method: 'eth_requestAccounts'});
             const account = accounts[0]
 
-            const daiAddress = '0x6B175474E89094C44Da98b954EedeAC495271d0F';
-            const daiInstance = new web3.eth.Contract(DAI, daiAddress);
+            const guildAddress = '0x83e9f223e1edb3486f876ee888d76bfba26c475a';
+            const guildInstance = new web3.eth.Contract(GUILD, guildAddress);
 
             const usdcAddress = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
             const usdcInstance = new web3.eth.Contract(USDC, usdcAddress)
 
             const ethBalance = await web3.eth.getBalance(account) / 1e+18
-            const daiBalance = await daiInstance.methods.balanceOf(account).call() / 1e+18
+            const guildBalance = await guildInstance.methods.balanceOf(account).call() / 1e+18
             const usdcBalance = await usdcInstance.methods.balanceOf(account).call() / 1e+6
 
             const balAddress = '0xBA12222222228d8Ba445958a75a0704d566BF2C8'
             const balInstance = new web3.eth.Contract(Balancer, balAddress);
 
+            const usdcAllowance = await usdcInstance.methods.allowance(account, balAddress).call() / 1e+6
+
             setWeb3(web3)
             setAccount(account)
             setEthBalance(ethBalance)
             setUsdcBalance(usdcBalance)
+            setUsdcAllowance(usdcAllowance)
             setUsdcInstance(usdcInstance)
             setBalInstance(balInstance)
-            setDAIBalance(daiBalance)
+            setGUILDBalance(guildBalance)
         }
     }
 
@@ -242,7 +246,8 @@ const BalTrade = () => {
             <h3>Account: {account ? `${account}` : 'Connect Wallet'}</h3>
             <p>{`ETH balance: ${ethBalance}`}</p>
             <p>{`USDC balance: ${usdcBalance}`}</p>
-            <p>{`DAI balance: ${daiBalance}`}</p>
+            <p>{`GUILD balance: ${guildBalance}`}</p>
+            <p>{`USDC allowance: ${usdcAllowance}`}</p>
             {/* {account && <button onClick={swapEthToUsdc}>Swap ETH to USDC</button>} */}
             {account && <button onClick={approveUSDC}>Approve USDC</button>}
             {/* {account && <button onClick={swapUSDCtoDAI}>Swap USDC to DAI</button>} */}
