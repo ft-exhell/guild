@@ -190,17 +190,17 @@ const BalTrade = () => {
         tokenData[usdc] = {
             'symbol': 'USDC',
             'decimals': '6',
-            'limit': '79000'
+            'limit': '104000'
         };
 
         tokenData[guild] = {
             'symbol': 'GUILD',
             'decimals': '18',
-            'limit': '158000'
+            'limit': '52000'
         };
 
         const swapKind = 0;
-        const amount = 79000
+        const amount = 104000
 
         const swapStruct = {
             poolId: poolGUILD,
@@ -223,8 +223,9 @@ const BalTrade = () => {
         const tx = {
             from: account,
             to: balAddress,
-            gas: web3.utils.toHex('2000000'),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('2', 'gwei')),
+            gas: web3.utils.toHex('200000'),
+            maxFeePerGas: web3.utils.toHex(web3.utils.toWei('500', 'gwei')),
+            maxPriorityFeePerGas: web3.utils.toHex(web3.utils.toWei('500', 'gwei')),
             value: web3.utils.toHex('0'),
             data: singleSwapCall.encodeABI()
         }
